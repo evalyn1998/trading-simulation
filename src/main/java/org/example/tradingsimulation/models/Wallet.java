@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.tradingsimulation.Enums.Currency;
+import org.example.tradingsimulation.enums.Currency;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,4 +43,5 @@ public class Wallet {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
 }

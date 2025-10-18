@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.tradingsimulation.Enums.TransactionPair;
-import org.example.tradingsimulation.Enums.TransactionStatus;
-import org.example.tradingsimulation.Enums.TransactionType;
+import org.example.tradingsimulation.enums.Source;
+import org.example.tradingsimulation.enums.TransactionPair;
+import org.example.tradingsimulation.enums.TransactionStatus;
+import org.example.tradingsimulation.enums.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "transaction", indexes = {
+@Table(name = "transactions", indexes = {
         @Index(name = "user_id", columnList = "user_id"),
         @Index(name = "created_at", columnList = "created_at")
 })
@@ -32,7 +33,11 @@ public class Transactions {
 
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    private TransactionPair transactionPair; // ETH_USDT or BTC_USDT
+    private TransactionType transactionType;
+
+    @Column(nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
+    private TransactionPair transactionPair;
 
     @Column(nullable = false, length = 4)
     @Enumerated(EnumType.STRING)
@@ -49,6 +54,10 @@ public class Transactions {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Source source;
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)

@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.tradingsimulation.Enums.Source;
-import org.example.tradingsimulation.Enums.TransactionPair;
+import org.example.tradingsimulation.enums.Source;
+import org.example.tradingsimulation.enums.TransactionPair;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,8 +28,8 @@ public class PriceAggregation {
     private BigDecimal bidPrice; //SELL
     private BigDecimal askPrice; //BUY
     private LocalDateTime timestamp;
-    private Enum<Source> askSource;
-    private Enum<Source> bidSource;
+    private Source askSource;
+    private Source bidSource;
 
     @PrePersist
     protected void onCreate() {

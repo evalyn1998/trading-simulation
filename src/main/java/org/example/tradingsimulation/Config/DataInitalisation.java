@@ -1,6 +1,6 @@
 package org.example.tradingsimulation.Config;
 
-import org.example.tradingsimulation.Enums.Currency;
+import org.example.tradingsimulation.enums.Currency;
 import org.example.tradingsimulation.models.UserInfo;
 import org.example.tradingsimulation.models.Wallet;
 import org.example.tradingsimulation.repository.UserInfoRepository;

@@ -1,4 +1,4 @@
-package org.example.tradingsimulation.Enums;
+package org.example.tradingsimulation.enums;
 
 public enum TransactionPair {
     ETHUSDT,

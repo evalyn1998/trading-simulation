@@ -1,10 +1,9 @@
 package org.example.tradingsimulation.service;
 
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.example.tradingsimulation.Enums.Source;
-import org.example.tradingsimulation.Enums.TransactionPair;
+import org.example.tradingsimulation.enums.Source;
+import org.example.tradingsimulation.enums.TransactionPair;
 import org.example.tradingsimulation.dtos.Binance.BinanceResponse;
 import org.example.tradingsimulation.dtos.Houbi.HuobiResponse;
 import org.example.tradingsimulation.dtos.PriceData;

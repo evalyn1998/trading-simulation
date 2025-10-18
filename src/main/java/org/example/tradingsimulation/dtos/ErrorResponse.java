@@ -21,12 +21,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ErrorResponse {
-    private String errorCode;
+    private int errorCode;
     private String errorMessage;
     private LocalDateTime timestamp;
 
-public ErrorResponse(String errorCode, String errorMessage) {
+public ErrorResponse(int errorCode, String errorMessage) {
     this.errorCode = errorCode;
     this.errorMessage = errorMessage;
     this.timestamp = LocalDateTime.now();

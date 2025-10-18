@@ -38,4 +38,5 @@ public class UserInfo {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+
 }
