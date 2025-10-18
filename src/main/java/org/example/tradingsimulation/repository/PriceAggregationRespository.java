@@ -1,13 +1,10 @@
 package org.example.tradingsimulation.repository;
 
-import org.example.tradingsimulation.Enums.TransactionPair;
 import org.example.tradingsimulation.models.PriceAggregation;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public interface PriceAggregationRespository extends JpaRepository<PriceAggregation, Long> {
@@ -16,5 +13,5 @@ public interface PriceAggregationRespository extends JpaRepository<PriceAggregat
     PriceAggregation findLatestBestAsk();
 
     @Query("SELECT p FROM PriceAggregation p ORDER BY p.timestamp DESC, p.bidPrice DESC LIMIT 1")
-    List<PriceAggregation> findLatestBestBid();
+    PriceAggregation findLatestBestBid();
 }
