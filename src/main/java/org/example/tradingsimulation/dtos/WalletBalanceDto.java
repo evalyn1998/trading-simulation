@@ -41,5 +41,20 @@ public class WalletBalanceDto {
         private Currency currency;
         private BigDecimal amount;
 
+    @Override
+    public String toString() {
+        return "Balance{" +
+                "currency=" + currency +
+                ", amount=" + amount +
+                '}';
+    }
+}
+
+    @Override
+    public String toString() {
+        return "WalletBalanceDto{" +
+                "username='" + username + '\'' +
+                ", balances=" + balances +
+                '}';
     }
 }
