@@ -2,6 +2,7 @@ package org.example.tradingsimulation.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.tradingsimulation.dtos.ApiResponse;
+import org.example.tradingsimulation.dtos.BestPriceResponse;
 import org.example.tradingsimulation.dtos.WalletBalanceDto;
 import org.example.tradingsimulation.service.PriceAggregationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class PriceAggregation {
      * Create an api to retrieve the best prices
      * */
     @GetMapping("/best-prices")
-    public ResponseEntity<ApiResponse<WalletBalanceDto>> getWalletBalance(@RequestParam String username) {
-        WalletBalanceDto walletBalanceDto = priceAggregationService.getBestPrices();
-        ApiResponse<WalletBalanceDto> response = new ApiResponse<>(true,"Retrieved!",walletBalanceDto);
+    public ResponseEntity<ApiResponse<BestPriceResponse>> getWalletBalance(@RequestParam String username) {
+        BestPriceResponse bestPriceResponse = priceAggregationService.getBestPrices();
+        ApiResponse<BestPriceResponse> response = new ApiResponse<>(true,"Retrieved!",bestPriceResponse);
         return ResponseEntity.ok(response);
 
     }

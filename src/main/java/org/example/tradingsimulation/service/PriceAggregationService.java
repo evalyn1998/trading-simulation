@@ -1,15 +1,11 @@
 package org.example.tradingsimulation.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.tradingsimulation.Enums.TransactionPair;
+import org.example.tradingsimulation.dtos.BestPriceResponse;
 import org.example.tradingsimulation.models.PriceAggregation;
 import org.example.tradingsimulation.repository.PriceAggregationRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -26,6 +22,13 @@ public class PriceAggregationService implements IPriceAggregationService {
         priceAggregationRespository.save(bestPriceAggregation);
     }
 
+    /**
+     * @return
+     */
+    @Override
+    public BestPriceResponse getBestPrices() {
+        return null;
+    }
 
 
 }
