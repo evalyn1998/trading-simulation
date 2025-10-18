@@ -3,6 +3,7 @@ package org.example.tradingsimulation.service;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.example.tradingsimulation.Enums.Source;
 import org.example.tradingsimulation.Enums.TransactionPair;
 import org.example.tradingsimulation.dtos.Binance.BinanceResponse;
 import org.example.tradingsimulation.dtos.Houbi.HuobiResponse;
@@ -55,9 +56,9 @@ public class IntegrationService {
                     if (pair != null) {
                         PriceData priceData = new PriceData(
                                 new BigDecimal(response.getBidPrice()),
-                                new BigDecimal(response.getAskPrice()));
+                                new BigDecimal(response.getAskPrice()), Source.BINANCE);
                         priceDataMap.computeIfAbsent(pair, k -> Collections.singletonList(priceData));
-                        log.info("Binance {}: Bid={}, Ask={}", pair, priceData.bidPrice(), priceData.askPrice());
+                        log.info("Binance {}: Bid={}, Ask={}", pair, priceData.getBidPrice(), priceData.getAskPrice());
                     }
                 }
             }
@@ -75,10 +76,10 @@ public class IntegrationService {
                 for (HuobiResponse.Huobidata ticker : response.getData()) {
                     TransactionPair pair = mapHuobiSymbol(ticker.getSymbol());
                     if (pair != null && ticker.getBid() != null && ticker.getAsk() != null) {
-                        PriceData priceData = new PriceData(ticker.getBid(), ticker.getAsk());
+                        PriceData priceData = new PriceData(ticker.getBid(), ticker.getAsk(), Source.HUOBI);
                         System.out.println("Huobi " +priceData );
                         priceDataMap.computeIfAbsent(pair, k -> Collections.singletonList(priceData));
-                        log.info("Huobi {}: Bid={}, Ask={}", pair, priceData.bidPrice(), priceData.askPrice());
+                        log.info("Huobi {}: Bid={}, Ask={}", pair, priceData.getBidPrice(), priceData.getAskPrice());
                     }
                 }
             }
@@ -111,23 +112,23 @@ public class IntegrationService {
                 }
 
                 // Find best bid (highest) and best ask (lowest)
-                BigDecimal bestBid = prices.stream()
-                        .map(PriceData::bidPrice)
-                        .max(BigDecimal::compareTo)
-                        .orElse(BigDecimal.ZERO);
+                PriceData bestBidData = prices.stream()
+                        .max(Comparator.comparing(PriceData::getBidPrice))
+                        .orElse(null);
 
-                BigDecimal bestAsk = prices.stream()
-                        .map(PriceData::askPrice)
-                        .min(BigDecimal::compareTo)
-                        .orElse(BigDecimal.ZERO);
+                PriceData bestAskData = prices.stream()
+                        .min(Comparator.comparing(PriceData::getAskPrice))
+                        .orElse(null);
 
                 PriceAggregation priceAgg = new PriceAggregation();
                 priceAgg.setTransactionPair(tradingPair);
-                priceAgg.setBidPrice(bestBid);
-                priceAgg.setAskPrice(bestAsk);
+                priceAgg.setBidPrice(bestBidData.getBidPrice());
+                priceAgg.setAskPrice(bestAskData.getAskPrice());
                 priceAgg.setTimestamp(LocalDateTime.now());
+                priceAgg.setAskSource(bestAskData.getSource());
+                priceAgg.setBidSource(bestBidData.getSource());
 
-                log.info("Saved best price for {}: Bid={}, Ask={}", tradingPair, bestBid, bestAsk);
+                log.info("Saved best price for {}: Bid={}, Ask={}", tradingPair, priceAgg.getBidPrice(), priceAgg.getAskPrice());
                 return priceAgg;
 
 

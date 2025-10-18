@@ -20,31 +20,12 @@ public class PriceAggregationService implements IPriceAggregationService {
     @Autowired
     private IntegrationService integrationService;
 
-    /**
-     * @return
-     */
-    @Override
-    public List<PriceAggregation> getLatestPriceAggregations() {
-        return priceAggregationRespository.findLastestPrices();
-    }
-
-    /**
-     * @param transactionPair
-     * @return
-     */
-    @Override
-    public PriceAggregation getLatestPriceAggregation(TransactionPair transactionPair) {
-       return priceAggregationRespository.findLatestTransactionPair(transactionPair);
-    }
-
-    /**
-     *
-     */
     @Override
     public void generateAndStorePriceAggregations() {
         PriceAggregation bestPriceAggregation= integrationService.aggregatePrices();
         priceAggregationRespository.save(bestPriceAggregation);
     }
+
 
 
 }

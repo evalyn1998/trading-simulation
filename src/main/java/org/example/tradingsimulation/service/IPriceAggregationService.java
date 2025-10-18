@@ -6,8 +6,7 @@ import org.example.tradingsimulation.models.PriceAggregation;
 import java.util.List;
 
 public interface IPriceAggregationService {
-    List<PriceAggregation> getLatestPriceAggregations();
-    PriceAggregation getLatestPriceAggregation(TransactionPair transactionPair);
     void generateAndStorePriceAggregations();
+    BestPriceResponse getBestPrices();
 
 }
