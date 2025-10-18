@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
         @Index(name = "user_id", columnList = "user_id"),
         @Index(name = "created_at", columnList = "created_at")
 })
-public class Transaction {
+public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

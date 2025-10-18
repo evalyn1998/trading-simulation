@@ -32,7 +32,7 @@ public class UserInfo {
     private List<Wallet> wallets = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<Transactions> transactions = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
