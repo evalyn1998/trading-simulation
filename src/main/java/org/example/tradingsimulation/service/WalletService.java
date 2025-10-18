@@ -6,8 +6,6 @@ import org.example.tradingsimulation.models.UserInfo;
 import org.example.tradingsimulation.models.Wallet;
 import org.example.tradingsimulation.repository.UserInfoRepository;
 import org.example.tradingsimulation.repository.WalletRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,9 @@ public class WalletService implements IWalletService {
      * @param username the username of the wallet owner
      * @return a {@link WalletBalanceDto} containing the username and a list of balances for each currency
      * @throws IllegalArgumentException if the username is not found
+     *
+     *
+     *
      *  */
     @Override
     public WalletBalanceDto getWalletBalance(String username) {
