@@ -55,8 +55,9 @@ public class IntegrationService {
                     if (pair != null) {
                         PriceData priceData = new PriceData(
                                 new BigDecimal(response.getBidPrice()),
-                                new BigDecimal(response.getAskPrice()), Source.BINANCE);
-                        priceDataMap.computeIfAbsent(pair, k -> Collections.singletonList(priceData));
+                                new BigDecimal(response.getAskPrice()),
+                                Source.BINANCE);
+                        priceDataMap.computeIfAbsent(pair, k -> new ArrayList<>()).add(priceData);
                         log.info("Binance {}: Bid={}, Ask={}", pair, priceData.getBidPrice(), priceData.getAskPrice());
                     }
                 }
@@ -76,10 +77,10 @@ public class IntegrationService {
                     TransactionPair pair = mapHuobiSymbol(ticker.getSymbol());
                     if (pair != null && ticker.getBid() != null && ticker.getAsk() != null) {
                         PriceData priceData = new PriceData(ticker.getBid(), ticker.getAsk(), Source.HUOBI);
-                        System.out.println("Huobi " +priceData );
-                        priceDataMap.computeIfAbsent(pair, k -> Collections.singletonList(priceData));
+                        priceDataMap.computeIfAbsent(pair, k -> new ArrayList<>()).add(priceData);
                         log.info("Huobi {}: Bid={}, Ask={}", pair, priceData.getBidPrice(), priceData.getAskPrice());
                     }
+
                 }
             }
         } catch (Exception e) {
@@ -87,8 +88,9 @@ public class IntegrationService {
         }
     }
 
-    public PriceAggregation aggregatePrices() {
+    public List<PriceAggregation> aggregatePrices() {
         log.info("Starting price aggregation...");
+        List<PriceAggregation> savedAggregations = new ArrayList<>();
 
         try {
             // Fetch prices from both exchanges
@@ -127,11 +129,17 @@ public class IntegrationService {
                 priceAgg.setAskSource(bestAskData.getSource());
                 priceAgg.setBidSource(bestBidData.getSource());
 
-                log.info("Saved best price for {}: Bid={}, Ask={}", tradingPair, priceAgg.getBidPrice(), priceAgg.getAskPrice());
-                return priceAgg;
+                savedAggregations.add(priceAgg);
+                log.info("Saved best price for {}: Bid={} ({}), Ask={} ({})",
+                        tradingPair,
+                        priceAgg.getBidPrice(), priceAgg.getBidSource(),
+                        priceAgg.getAskPrice(), priceAgg.getAskSource());
+
 
 
             }
+            return savedAggregations;
+
 
         } catch (Exception e) {
             log.error("Error during price aggregation: {}", e.getMessage(), e);

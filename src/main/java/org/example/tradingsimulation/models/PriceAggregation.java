@@ -24,11 +24,19 @@ public class PriceAggregation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private TransactionPair transactionPair;
+
     private BigDecimal bidPrice; //SELL
+
     private BigDecimal askPrice; //BUY
+
     private LocalDateTime timestamp;
+
+    @Enumerated(EnumType.STRING)
     private Source askSource;
+
+    @Enumerated(EnumType.STRING)
     private Source bidSource;
 
     @PrePersist

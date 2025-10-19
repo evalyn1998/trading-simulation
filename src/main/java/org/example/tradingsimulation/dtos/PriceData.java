@@ -14,5 +14,5 @@ import java.math.BigDecimal;
 public class PriceData {
     private BigDecimal bidPrice;
     private BigDecimal askPrice;
-    private Enum<Source> source;
+    private Source source;
 }

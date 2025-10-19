@@ -6,14 +6,11 @@ import org.example.tradingsimulation.enums.Currency;
 import org.example.tradingsimulation.enums.TransactionPair;
 import org.example.tradingsimulation.enums.TransactionStatus;
 import org.example.tradingsimulation.enums.TransactionType;
-import org.example.tradingsimulation.dtos.BestPriceResponse;
 import org.example.tradingsimulation.dtos.TradeResponse;
 import org.example.tradingsimulation.exception.InsufficientBalanceException;
 import org.example.tradingsimulation.exception.InvalidTransactionPairException;
-import org.example.tradingsimulation.models.TradeRequest;
-import org.example.tradingsimulation.models.Transactions;
-import org.example.tradingsimulation.models.UserInfo;
-import org.example.tradingsimulation.models.Wallet;
+import org.example.tradingsimulation.models.*;
+import org.example.tradingsimulation.repository.PriceAggregationRespository;
 import org.example.tradingsimulation.repository.TransactionsRepository;
 import org.example.tradingsimulation.repository.UserInfoRepository;
 import org.example.tradingsimulation.repository.WalletRepository;
@@ -34,7 +31,7 @@ public class TradingService implements ITradingService {
     @Autowired
     private UserInfoRepository userInfoRepository;
     @Autowired
-    private PriceAggregationService priceAggregationService;
+    private PriceAggregationRespository priceAggregationRespository;
 
     private Currency getCryptoFromTradingPair(TransactionPair tradingPair) {
         switch (tradingPair) {
@@ -65,15 +62,15 @@ public class TradingService implements ITradingService {
 
 
         // 2. Get latest aggregated price
-        BestPriceResponse latestPrice = priceAggregationService.getBestPrices();
+        PriceAggregation latestPrice = priceAggregationRespository
+                .findLatestByTradingPair(request.getTransactionPair());
 
         // 3. Determine price based on trade type
         // BUY: use askPrice (lowest selling price)
         // SELL: use bidPrice (highest buying price)
         BigDecimal tradePrice = request.getTransactionType() == TransactionType.BUY
-                ? latestPrice.getBestAskPrice()
-                : latestPrice.getBestBidPrice();
-
+                ? latestPrice.getAskPrice()
+                : latestPrice.getBidPrice();
         if (tradePrice == null) {
             throw new InvalidTransactionPairException(
                     "No " + (request.getTransactionType() == TransactionType.BUY ? "ask" : "bid") +
