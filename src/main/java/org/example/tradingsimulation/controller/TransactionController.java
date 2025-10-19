@@ -7,10 +7,7 @@ import org.example.tradingsimulation.service.TradingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +19,14 @@ public class TransactionController {
     @Autowired
     private TradingService tradingService;
 
-    @GetMapping("/users/{username}/transactions")
-    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getUserTransactions(@PathVariable String username) {
+    /**
+     * GET /api/v1/transactions/users/transactions?username={username}
+     * Request Param: username (default_user)
+     * Create an api to retrieve all transactions for a user. (4)
+     * */
+    @GetMapping("/users/transactions")
+    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getUserTransactions(@RequestParam String username) {
         log.info("Fetching transactions for user: {}", username);
-
         List<TransactionResponse> transactions = tradingService.getUserTransactions(username);
         return ResponseEntity.ok(ApiResponse.success(transactions));
     }

@@ -16,6 +16,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
+/**
+ * Get the priving from BINANCE AND HUOBI APIs
+ * Aggregate Price based on the APIs and return it to the service (1)
+ *
+ * */
+
 @Service
 @Slf4j
 public class IntegrationService {

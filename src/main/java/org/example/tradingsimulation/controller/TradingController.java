@@ -20,6 +20,17 @@ public class TradingController {
     @Autowired
     private TradingService tradingService;
 
+    /**
+     * POST /api/v1/trading/trade
+     * Trade Request includes:
+             * username, (default_user)
+             * transactionPair,
+             * transactionType
+             * (BUY/SELL),
+             * qty
+     * Create an api which allows users to trade based on the latest best aggregated
+     * price. (3)
+     * */
     @PostMapping("/trade")
     public ResponseEntity<ApiResponse<TradeResponse>> executeTrade(@RequestBody TradeRequest request) {
         log.info("Received trade request: {} {} {} for user {}",

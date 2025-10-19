@@ -22,6 +22,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Trade based in the latest best aggregated price (3)
+ * **/
 @Service
 @Slf4j
 public class TradingService implements ITradingService {

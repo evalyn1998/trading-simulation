@@ -21,13 +21,13 @@ public class PriceAggregationService implements IPriceAggregationService {
     @Override
     public void generateAndStorePriceAggregations() {
         List<PriceAggregation> bestPriceAggregation= integrationService.aggregatePrices();
-        System.out.println("Best Price Aggregations: " + bestPriceAggregation);
         priceAggregationRespository.saveAll(bestPriceAggregation);
     }
 
-/*   Retrieves the best bid and ask prices along with their respective timestamps and sources.
- @return a {@link BestPriceResponse} containing the best bid and ask prices, or null if no data is available.
-*/
+    /**
+     * Returns the latest price aggregation for a given transaction pair.
+     * Create an api to retrieve the latest best aggregated price.(2)
+     * */
     @Override
     public PriceAggregation getLatestPriceByPair(TransactionPair transactionPair) {
         return priceAggregationRespository.findTopByTransactionPairOrderByTimestampDesc(transactionPair);
