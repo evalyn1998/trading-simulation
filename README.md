@@ -1,6 +1,8 @@
 
 # Crypto Trading API
 
+By: Evalyn Low Wei Xuan
+
 This project provides a simple crypto trading system with APIs for wallet management, trading, and price aggregation. It supports trading pairs like `BTCUSDT` and `ETHUSDT`. All API responses are wrapped in a consistent `ApiResponse<T>` format.
 
 ---
