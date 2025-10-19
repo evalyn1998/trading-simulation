@@ -70,8 +70,6 @@ public class TradingService implements ITradingService {
                 .findTopByTransactionPairOrderByTimestampDesc(request.getTransactionPair());
 
         // 3. Determine price based on trade type
-        // BUY: use askPrice (lowest selling price)
-        // SELL: use bidPrice (highest buying price)
         BigDecimal tradePrice = request.getTransactionType() == TransactionType.BUY
                 ? latestPrice.getAskPrice()
                 : latestPrice.getBidPrice();
@@ -182,7 +180,7 @@ public class TradingService implements ITradingService {
         UserInfo user = userInfoRepository.findByUsername(username);
         List<Transactions> transactions = transactionRepository.findByUserOrderByCreatedAtDesc(user);
 
-        // Map entity to DTO
+
         return transactions.stream()
                 .map(t -> new TransactionResponse(
                         t.getId(),
