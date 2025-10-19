@@ -21,7 +21,7 @@ public class WalletController {
      * GET all the wallet balances
      * GET /api/v1/wallet/balances?username={username}
      *  username (default_user)
-     * Create an api to retrieve the user’s crypto currencies wallet balance
+     * Create an api to retrieve the user’s crypto currencies wallet balance (4)
      */
     @GetMapping("/balances")
     public ResponseEntity<ApiResponse<WalletBalanceDto>> getWalletBalance(@RequestParam String username) {

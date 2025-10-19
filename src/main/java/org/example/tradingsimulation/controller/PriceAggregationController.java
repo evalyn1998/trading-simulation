@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,13 +48,14 @@ public class PriceAggregationController {
 
     /**
      * GET the best price by trading pair
-     * GET /api/v1/price-aggregation/latest/{tradingPair}
-     * Create an api to retrieve the best price by trading pair
+     * GET /api/v1/price-aggregation/latest?transactionPair={transactionPair}
+     * ONLY BTCUSDT and ETHUSDT are supported
+     * Create an api to retrieve the best price by trading pair (2)
      * */
-    @GetMapping("/latest/{tradingPair}")
+    @GetMapping("/latest")
     public ResponseEntity<ApiResponse<BestPriceResponse>> getLatestPriceByPair(
-            @PathVariable TransactionPair tradingPair) {
-        PriceAggregation price = priceAggregationService.getLatestPriceByPair(tradingPair);
+            @RequestParam TransactionPair transactionPair) {
+        PriceAggregation price = priceAggregationService.getLatestPriceByPair(transactionPair);
 
         BestPriceResponse response = new BestPriceResponse(
                 price.getBidPrice(),

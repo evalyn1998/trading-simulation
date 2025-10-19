@@ -22,7 +22,7 @@ public class TransactionController {
     /**
      * GET /api/v1/transactions/users/transactions?username={username}
      * Request Param: username (default_user)
-     * Create an api to retrieve all transactions for a user. (4)
+     * Create an api to retrieve all transactions for a user. (5)
      * */
     @GetMapping("/users/transactions")
     public ResponseEntity<ApiResponse<List<TransactionResponse>>> getUserTransactions(@RequestParam String username) {
