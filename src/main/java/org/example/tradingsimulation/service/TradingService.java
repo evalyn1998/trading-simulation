@@ -2,6 +2,7 @@ package org.example.tradingsimulation.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.example.tradingsimulation.dtos.TransactionResponse;
 import org.example.tradingsimulation.enums.Currency;
 import org.example.tradingsimulation.enums.TransactionPair;
 import org.example.tradingsimulation.enums.TransactionStatus;
@@ -63,7 +64,7 @@ public class TradingService implements ITradingService {
 
         // 2. Get latest aggregated price
         PriceAggregation latestPrice = priceAggregationRespository
-                .findLatestByTradingPair(request.getTransactionPair());
+                .findTopByTransactionPairOrderByTimestampDesc(request.getTransactionPair());
 
         // 3. Determine price based on trade type
         // BUY: use askPrice (lowest selling price)
@@ -93,6 +94,7 @@ public class TradingService implements ITradingService {
 
         // 7. Create transaction record
         Transactions transaction = new Transactions();
+        transaction.setUser(user);
         transaction.setTransactionType(request.getTransactionType());
         transaction.setTransactionPair(request.getTransactionPair());
         transaction.setStatus(TransactionStatus.COMPLETED);
@@ -173,10 +175,27 @@ public class TradingService implements ITradingService {
 
 
     @Override
-    public List<Transactions> getUserTransactions(String username) {
+    public List<TransactionResponse> getUserTransactions(String username) {
         UserInfo user = userInfoRepository.findByUsername(username);
-        return transactionRepository.findByUserOrderByCreatedAtDesc(user);
+        List<Transactions> transactions = transactionRepository.findByUserOrderByCreatedAtDesc(user);
+
+        // Map entity to DTO
+        return transactions.stream()
+                .map(t -> new TransactionResponse(
+                        t.getId(),
+                        t.getTransactionType().name(),
+                        t.getTransactionPair().name(),
+                        t.getStatus().name(),
+                        t.getQuantity(),
+                        t.getPrice(),
+                        t.getTotalAmount(),
+                        t.getSource().name(),
+                        t.getCreatedAt(),
+                        t.getUser().getId()
+                ))
+                .toList();
     }
+
 
 }
 

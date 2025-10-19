@@ -24,13 +24,13 @@ public class PriceAggregationController {
     @Autowired
     private PriceAggregationService priceAggregationService;
     /**
-     * GET the best prices
-     * GET /api/v1/price-aggregation/best-prices
-     * Create an api to retrieve the best prices
+     * GET all latest prices
+     * GET /api/v1/price-aggregation/latest-prices
+     * Create an api to retrieve all latest prices
      * */
     @GetMapping("/latest-prices")
-    public ResponseEntity<ApiResponse<List<BestPriceResponse>>> getLatestPrices() {
-        List<PriceAggregation> prices = priceAggregationService.getLatestPrices();
+    public ResponseEntity<ApiResponse<List<BestPriceResponse>>> getAllLatestPrices() {
+        List<PriceAggregation> prices = priceAggregationService.getAllLatestPrices();
 
         List<BestPriceResponse> response = prices.stream()
                 .map(p -> new BestPriceResponse(
@@ -45,10 +45,15 @@ public class PriceAggregationController {
         return ResponseEntity.ok(ApiResponse.success("Latest prices retrieved successfully", response));
     }
 
+    /**
+     * GET the best price by trading pair
+     * GET /api/v1/price-aggregation/latest/{tradingPair}
+     * Create an api to retrieve the best price by trading pair
+     * */
     @GetMapping("/latest/{tradingPair}")
     public ResponseEntity<ApiResponse<BestPriceResponse>> getLatestPriceByPair(
             @PathVariable TransactionPair tradingPair) {
-        PriceAggregation price = priceAggregationService.getLatestPriceAggregation(tradingPair);
+        PriceAggregation price = priceAggregationService.getLatestPriceByPair(tradingPair);
 
         BestPriceResponse response = new BestPriceResponse(
                 price.getBidPrice(),

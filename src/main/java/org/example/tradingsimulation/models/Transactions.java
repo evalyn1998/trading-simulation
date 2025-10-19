@@ -1,5 +1,6 @@
 package org.example.tradingsimulation.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,9 +30,10 @@ public class Transactions {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private UserInfo user;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 4)
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
@@ -39,9 +41,9 @@ public class Transactions {
     @Enumerated(EnumType.STRING)
     private TransactionPair transactionPair;
 
-    @Column(nullable = false, length = 4)
+    @Column(nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
-    private TransactionType type; // BUY or SELL
+    private TransactionStatus status; // BUY or SELL
 
     @Column(nullable = false, precision = 18, scale = 8)
     private BigDecimal quantity; // Amount of crypto (ETH or BTC)
@@ -58,10 +60,6 @@ public class Transactions {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Source source;
-
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
 
     @PrePersist
     protected void onCreate() {

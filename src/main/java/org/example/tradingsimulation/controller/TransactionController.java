@@ -2,7 +2,7 @@ package org.example.tradingsimulation.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.tradingsimulation.dtos.ApiResponse;
-import org.example.tradingsimulation.models.Transactions;
+import org.example.tradingsimulation.dtos.TransactionResponse;
 import org.example.tradingsimulation.service.TradingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,10 @@ public class TransactionController {
     private TradingService tradingService;
 
     @GetMapping("/users/{username}/transactions")
-    public ResponseEntity<ApiResponse<List<Transactions>>> getUserTransactions(@PathVariable String username) {
+    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getUserTransactions(@PathVariable String username) {
         log.info("Fetching transactions for user: {}", username);
 
-        List<Transactions> transactions = tradingService.getUserTransactions(username);
+        List<TransactionResponse> transactions = tradingService.getUserTransactions(username);
         return ResponseEntity.ok(ApiResponse.success(transactions));
     }
 }

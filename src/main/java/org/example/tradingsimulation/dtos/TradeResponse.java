@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class TradeResponse {
     private Long id;
-    private String usernname;
+    private String username;
     private TransactionType transactionType;
     private TransactionPair transactionPair;
     private BigDecimal qty;
@@ -26,7 +26,7 @@ public class TradeResponse {
     public String toString() {
         return "TradeResponse{" +
                 "id=" + id +
-                ", usernname='" + usernname + '\'' +
+                ", usernname='" + username + '\'' +
                 ", transactionType=" + transactionType +
                 ", qty=" + qty +
                 ", price=" + price +

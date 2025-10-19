@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IPriceAggregationService {
     void generateAndStorePriceAggregations();
-    PriceAggregation getLatestPriceAggregation(TransactionPair transactionPair);
-    List<PriceAggregation> getLatestPrices();
+    PriceAggregation getLatestPriceByPair(TransactionPair transactionPair);
+    List<PriceAggregation> getAllLatestPrices();
 
 }

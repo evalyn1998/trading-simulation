@@ -11,11 +11,18 @@ import java.util.List;
 
 @Repository
 public interface PriceAggregationRespository extends JpaRepository<PriceAggregation, Long> {
+// Latest record for a specific trading pair
+    PriceAggregation findTopByTransactionPairOrderByTimestampDesc(TransactionPair transactionPair);
 
-    @Query("SELECT p FROM PriceAggregation p WHERE p.transactionPair = :transactionPair ORDER BY p.timestamp DESC")
-    PriceAggregation findLatestByTradingPair(TransactionPair tradingPair);
-
-    @Query("SELECT p FROM PriceAggregation p WHERE p.id IN " +
-            "(SELECT MAX(p2.id) FROM PriceAggregation p2 GROUP BY p2.transactionPair)")
+    // Latest records for all trading pairs
+    @Query("""
+        SELECT p FROM PriceAggregation p
+        WHERE p.id IN (
+            SELECT MAX(p2.id)
+            FROM PriceAggregation p2
+            GROUP BY p2.transactionPair
+        )
+        ORDER BY p.transactionPair
+    """)
     List<PriceAggregation> findLatestPrices();
 }

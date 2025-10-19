@@ -29,11 +29,11 @@ public class PriceAggregationService implements IPriceAggregationService {
  @return a {@link BestPriceResponse} containing the best bid and ask prices, or null if no data is available.
 */
     @Override
-    public PriceAggregation getLatestPriceAggregation(TransactionPair transactionPair) {
-        return priceAggregationRespository.findLatestByTradingPair(transactionPair);
+    public PriceAggregation getLatestPriceByPair(TransactionPair transactionPair) {
+        return priceAggregationRespository.findTopByTransactionPairOrderByTimestampDesc(transactionPair);
     }
     @Override
-    public List<PriceAggregation> getLatestPrices() {
+    public List<PriceAggregation> getAllLatestPrices() {
         return priceAggregationRespository.findLatestPrices();
     }
 
